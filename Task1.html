@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>祝福语生成器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #34495e;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #2c3e50;
+            line-height: 1.6;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .result.show {
+            opacity: 1;
+        }
+
+        .tips {
+            margin-top: 15px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>祝福语生成器</h1>
+        
+        <div class="input-group">
+            <label for="nameInput">请输入姓名：</label>
+            <input type="text" id="nameInput" placeholder="例如：张三">
+        </div>
+        
+        <button id="generateBtn">生成祝福语</button>
+        
+        <div class="result" id="resultArea"></div>
+        
+        <div class="tips">
+            提示：点击生成按钮后会随机生成不同风格的祝福语
+        </div>
+    </div>
+
+    <script>
+        // 优化后的祝福语模板库（去掉重复的姓名占位符，避免冗余）
+        const blessingTemplates = [
+            "愿你日日有好运，事事皆顺心，生活甜如蜜！",
+            "平安喜乐，万事胜意，未来可期，不负韶华！",
+            "前程似锦，一路繁花，所遇皆美好，所行皆坦途！",
+            "被温柔以待，日子温暖顺心，抬头遇见的都是柔情！",
+            "眼里有光，心中有爱，脚下有路，岁岁年年皆如意！",
+            "身体健康，心情愉悦，家庭美满，一切都刚刚好！",
+            "所求皆如愿，所行化坦途，多喜乐，长安宁！",
+            "每天都有小惊喜，生活处处有阳光，幸福常相伴！"
+        ];
+
+        // 获取页面元素
+        const nameInput = document.getElementById('nameInput');
+        const generateBtn = document.getElementById('generateBtn');
+        const resultArea = document.getElementById('resultArea');
+
+        // 生成祝福语函数
+        function generateBlessing() {
+            // 获取输入的名字
+            const name = nameInput.value.trim();
+            
+            // 验证输入
+            if (!name) {
+                resultArea.textContent = "请先输入姓名再生成祝福语哦！";
+                resultArea.classList.add('show');
+                return;
+            }
+
+            // 随机选择一个祝福语模板
+            const randomIndex = Math.floor(Math.random() * blessingTemplates.length);
+            const template = blessingTemplates[randomIndex];
+            
+            // 拼接固定前缀 + 祝福内容
+            const blessing = `秦鹏程老师祝${name}同学，${template}`;
+            
+            // 显示结果
+            resultArea.textContent = blessing;
+            resultArea.classList.add('show');
+        }
+
+        // 绑定按钮点击事件
+        generateBtn.addEventListener('click', generateBlessing);
+
+        // 支持回车键触发生成
+        nameInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                generateBlessing();
+            }
+        });
+    </script>
+</body>
+</html>
